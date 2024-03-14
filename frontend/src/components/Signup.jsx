@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-hot-toast";
+import { SIGNUP_URL } from "../apiConfig";
 
 const Signup = () => {
   const [userDetails, setUserDetails] = useState({
@@ -9,10 +11,12 @@ const Signup = () => {
     password: "",
   });
 
-  const [message, setMessage] = useState({
-    type: "invisible-msg",
-    data: "Dummy msg",
-  });
+  const navigate = useNavigate();
+
+  // const [message, setMessage] = useState({
+  //   type: "invisible-msg",
+  //   data: "Dummy msg",
+  // });
 
   function handleInput(event) {
     setUserDetails((prevState) => {
@@ -20,24 +24,39 @@ const Signup = () => {
     });
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    console.log(userDetails);
+  // function handleSubmit(event) {
+  //   event.preventDefault();
+  //   console.log(userDetails);
 
-    fetch("http://localhost:8000/api/v1/user/signup", {
-      method: "POST",
-      body: JSON.stringify(userDetails),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+  //   fetch("http://localhost:8000/api/v1/user/signup", {
+  //     method: "POST",
+  //     body: JSON.stringify(userDetails),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   })
+  //     .then((response) => {
+  //       console.log(response);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
+
+  const handleSubmit = async () => {
+    try {
+    
+      const { data } = await axios.post(SIGNUP_URL, userDetails);
+
+      if (data.success) {
+        toast.success("User signed up successfully");
+        setUserDetails({ name: "", email: "", password: "" });
+        navigate("/signin");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <section className="h-screen w-full bg-[#161616] flex items-center justify-center">

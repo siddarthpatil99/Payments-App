@@ -1,17 +1,11 @@
-
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Signup from './components/Signup'
-import Signin from './components/Signin'
-import Notfound from './components/Notfound';
-
-
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Signup from "./components/Signup";
+import Signin from "./components/Signin";
+import Notfound from "./components/Notfound";
 
 function App() {
-  
   return (
     <>
-      {/* <Signup /> */}
-      {/* <Signin /> */}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Signin />} />
@@ -24,4 +18,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
